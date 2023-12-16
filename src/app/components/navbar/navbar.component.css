@@ -1,0 +1,17 @@
+.a{
+    position:absolute;
+    left:1%
+}
+.navbar:focus{
+    background-color: blue;
+}
+.contact-button{
+    border-color: #639;
+    color:#639;
+    
+}
+.signup-button{
+    background-color: #639;
+    color:white;
+}
+

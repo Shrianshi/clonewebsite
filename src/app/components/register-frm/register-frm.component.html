@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="bg-light shadow-lg row m-3 rounded">
+        <form class="col-sm-8 offset-2 p-3 text-secondary" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <h1 class="text-success fw-bold">Register here</h1>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Personal Details</h5>
+                    <div class="form-group py-1">
+                        <label>Firstname*</label>
+                        <input type="text" id="firstName" minlength="4" maxlength="31" class="form-control" formControlName="firstName">
+
+                        <div *ngIf="registerForm.get('firstName')?.hasError('required') && registerForm.get('firstName')?.touched"
+                            class="text-danger">firstname is required</div>
+                        <div *ngIf="registerForm.get('firstName')?.hasError('minlength') && !registerForm.get('firstName')?.hasError('invalidName')" class="text-danger">firstname must contain atleast 4 letters</div>
+                        <div *ngIf="registerForm.get('firstName')?.hasError('maxlength') && !registerForm.get('firstName')?.hasError('invalidName')" class="text-danger">firstname can't exceed 30 letters</div>
+                        <div *ngIf="registerForm.get('firstName')?.hasError('invalidName')" class="text-danger">numbers, special characters and spaces aren't allowed</div>
+
+                    </div>
+
+                    <div class="form-group py-1">
+                        <label>Lastname*</label>
+                        <input type="text" class="form-control" minlength="1" maxlength="21" formControlName="lastName">
+
+                        <div *ngIf="registerForm.get('lastName')?.hasError('required') && registerForm.get('lastName')?.touched"
+                            class="text-danger">lastname is required</div>
+                        <div *ngIf="registerForm.get('lastName')?.hasError('minlength') && !registerForm.get('lastName')?.hasError('invalidName')" class="text-danger">lastname must contain atleast 1 letter</div>
+                        <div *ngIf="registerForm.get('lastName')?.hasError('maxlength') && !registerForm.get('lastName')?.hasError('invalidName')" class="text-danger">lastname can't exceed 20 letters</div>
+                        <div *ngIf="registerForm.get('lastName')?.hasError('invalidName')" class="text-danger">numbers, special characters and spaces aren't allowed</div>
+                    </div>
+
+                    <div class="form-group py-1">
+                        <label>Email*</label>
+                        <input type="email" class="form-control" formControlName="email"
+                            placeholder="e.g, xyz@example.co.in">
+
+                        <div *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched && !registerForm.get('email')?.hasError('invalidEmail')"
+                            class="text-danger">email is required</div>
+                        <div *ngIf="registerForm.get('email')?.hasError('invalidEmail') && registerForm.get('email')?.touched" class="text-danger">provide a valid email</div>
+                    </div>
+
+
+                    <div class="form-group py-1">
+                        <label>DOB*</label>
+                        <input type="date" class="form-control" formControlName="dob" max="{{ getMaxDate() }}">
+                        <div *ngIf="registerForm.get('dob')?.hasError('required') && registerForm.get('dob')?.touched"
+                            class="text-danger">dob is required.</div>
+                        <div *ngIf="registerForm.get('dob')?.hasError('futureDate') && registerForm.get('dob')?.touched && !registerForm.get('dob')?.hasError('required')"
+                            class="text-danger">dob can't exceed current date</div>
+                    </div>
+
+
+                    <div class="form-group py-1">
+                        <label>Phone*</label>
+                        <input type="text" class="form-control" formControlName="phone" maxlength="14" placeholder="e.g, +91 XXXXXXXXXX">
+                        <div *ngIf="registerForm.get('phone')?.hasError('required') && registerForm.get('phone')?.touched"
+                            class="text-danger">phone number is required.</div>
+                        <div *ngIf="registerForm.get('phone')?.hasError('minlength') && !registerForm.get('phone')?.hasError('invalidNumber')" class="text-danger">phone number must contain atleast 10 digits.</div>
+                        <div *ngIf="registerForm.get('phone')?.hasError('maxlength') && !registerForm.get('phone')?.hasError('invalidNumber')" class="text-danger">phone number is too large.</div>
+                        <div *ngIf="registerForm.get('phone')?.hasError('invalidNumber') && !registerForm.get('phone')?.hasError('required')" class="text-danger">phone number should be in correct format.</div>
+                        
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+
+                    <h5>Address</h5>
+
+                    <div class="form-group py-1">
+                        <label>Country*</label>
+
+                        <select class="form-control" formControlName="country" (change)="onCountryChange()">
+                            <option class="" disabled value="">Select</option>
+                            <option *ngFor="let country of countries" [value]="country.iso2">{{country.name}}</option>
+                        </select>
+                        <div *ngIf="registerForm.get('country')?.hasError('required') && registerForm.get('country')?.touched"
+                            class="text-danger">country is required.</div>
+                    </div>
+
+
+                    <div class="form-group py-1">
+                        <label>State*</label>
+                        <select class="form-control" formControlName="state" (change)="onStateChange()">
+                            <option class="" disabled value="">Select</option>
+                            <option *ngFor="let state of states" [value]="state.iso2">{{state.name}}</option>
+                        </select>
+                        <div *ngIf="registerForm.get('state')?.hasError('required') && registerForm.get('state')?.touched"
+                            class="text-danger">state is required.</div>
+                    </div>
+
+                    <div class="form-group py-1">
+                        <label>City*</label>
+                        <select class="form-control" formControlName="city">
+                            <option class="" disabled value="">Select</option>
+                            <option *ngFor="let city of cities" [value]="city.name">{{city.name}}</option>
+                        </select>
+                        <div *ngIf="registerForm.get('city')?.hasError('required') && registerForm.get('city')?.touched"
+                            class="text-danger">city is required.</div>
+                    </div>
+
+                    <div class="form-group py-1">
+                        <label>Complete address(optional)</label>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3" [disabled]="!registerForm.valid">Submit</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+.form-background{
+    background-color: #FCFAFF;
+    border-radius: 20px;
+    margin:0% 1.6%;
+    padding:3% 2%;
+}
+.form-text{
+    color:#639
+}
+.submit-button{
+   background-color: #639;
+   color:white;
+
+}
